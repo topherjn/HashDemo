@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <math.h>
+#include <list>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ unsigned int DoHash(string str)
 int main()
 {
 	string buffer;  // place to hold each dictionary word
-	int HashTable[TABLE_SIZE] = { 0 };  // a hash table intialized to all 0s
+	list<string> *HashTable[TABLE_SIZE] = { NULL };  // a hash table intialized to all 0s
 
 										// various variables to help in doing statistics on the hashing
 	int val;
@@ -51,26 +52,21 @@ int main()
 	// incremented by one to keep a tally of the hash hits
 	while (fin) {
 
-		HashTable[DoHash(buffer)]++;
-		num_values++;
+		if (HashTable[DoHash(buffer)] == NULL) {
+			HashTable[DoHash(buffer)] = new list<string>();
+		}
+
+		HashTable[DoHash(buffer)]->push_back(buffer);
+		
+		
 		fin >> buffer;
 	}
 
-	// statistics are computed
-	mean = ceil((double)num_values / TABLE_SIZE);
 
-	cout << "Hash Function Distribution:" << endl;
-	for (int i = 0; i < TABLE_SIZE; i++) {
-		val = HashTable[i];
-		variance += ((val - mean) * (val - mean));
-		cout << "HashTable [" << i << "] = " << val << endl;
-	}
-
-	variance /= TABLE_SIZE;
-
-	cout << endl << endl;
-	cout << "Mean: " << mean << endl;
-	cout << "Standard Deviation: " << sqrt(variance) << endl;
+		for (list<string>::iterator it = HashTable[1]->begin(); it != HashTable[1]->end(); it++) {
+			cout << *it << endl;
+		}
+	
 
 	return 0;
 }
