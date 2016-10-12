@@ -62,11 +62,13 @@ int main()
 		fin >> buffer;
 	}
 
-
-		for (list<string>::iterator it = HashTable[1]->begin(); it != HashTable[1]->end(); it++) {
-			cout << *it << endl;
+	for (int i = 1; i < TABLE_SIZE; i++) {
+		if (HashTable[i]) {
+			for (list<string>::iterator it = HashTable[i]->begin(); it != HashTable[i]->end(); it++) {
+				cout << *it << endl;
+			}
 		}
-	
+	}
 
 	return 0;
 }
